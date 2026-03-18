@@ -1,295 +1,93 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: white;
+  background-color: #111;
+  color: white;
 }
 
+/* Controls bar */
 #controls {
-  background: #222;
-  color: #fff;
-  padding: 6px 12px;
+  padding: 10px;
+  background: #000;
   font-size: 14px;
 }
 
-#controls label {
-  margin-right: 15px;
-  cursor: pointer;
+/* DASHBOARD GRID */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 wide */
+  grid-template-rows: repeat(3, 1fr);    /* 3 high */
+  gap: 12px;
+  padding: 12px;
+  height: calc(100vh - 120px); /* leaves room for controls + ticker */
+  box-sizing: border-box;
 }
 
+/* TEAM CARDS */
+.team-card {
+  background-color: #222;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
 
+/* Header (logo + name) */
+.team-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.team-logo {
+  width: 40px;
+  height: 40px;
+}
+
+.team-name {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+/* Status + standings */
+.team-status {
+  font-size: 1rem;
+  text-align: center;
+}
+
+.team-standings {
+  font-size: 0.9rem;
+  text-align: center;
+  opacity: 0.8;
+}
+
+/* TICKER */
 .ticker {
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 40px;
+  background: #000;
   overflow: hidden;
-  background: #222;
-  color: #fff;
-  border-top: 2px solid #d00;
+  white-space: nowrap;
+  height: 40px;
+  display: flex;
+  align-items: center;
 }
 
 #ticker-content {
   display: inline-block;
-  white-space: nowrap;
   padding-left: 100%;
-  animation: scroll 40s linear infinite;
+  animation: scroll-left 90s linear infinite;
 }
 
-@keyframes scroll {
-  from { transform: translateX(50); }
-  to { transform: translateX(-50%); }
-}
-
-.live {
-  color: #4cff4c; /* green */
-  font-weight: bold;
-}
-
-.final {
-  color: #aaa; /* gray */
-}
-
-.upcoming {
-  color: #ffcc00; /* yellow */
-}
-
-#ticker-content span {
-  margin-right: 10px;
-}
-
-.live::before,
-.final::before,
-.upcoming::before {
-  content: " ";
-}
-
-#ticker-content img {
-  vertical-align: middle;
-}
-
-#ticker-content span {
-  margin-left: 15px; /* adds space between each game */
-}
-
-#ticker-content img {
-  vertical-align: middle;
-  margin-right: 6px; /* space between logo and abbreviation */
-}
-
-.dashboard {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, max-content);
-  gap: 16px;
-  padding: 16px;
-  justify-content: start;   /* keeps cards aligned left */
-}
-
-.team-card {
-  background: black;
-  color: #fff;
-  border-radius: 8px;
-  padding: 12px;
-  margin-bottom: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
-  
-  width: fit-content;
-  min-width: 360px;
-}
-
-/* Bruins-specific */
-.team-card.bruins {
-  border-left: 6px solid #FFB81C; /* Bruins gold */
-}
-
-.team-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.team-logo {
-  width: 36px;
-  height: 36px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-.team-name {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.team-status {
-  font-size: 16px;
-}
-
-.team-standings {
-  margin-top: 6px;
-  font-size: 14px;
-  color: #ccc;
-}
-
-.team-standings strong {
-  color: #FFB81C; /* Bruins gold */
-}
-
-/* Red Sox-specific */
-.team-card.redsox {
-  border-left: 6px solid #BD3039; /* Red Sox red */
-}
-
-.team-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.team-logo {
-  width: 36px;
-  height: 36px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-.team-name {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.team-status {
-  font-size: 16px;
-}
-
-.team-standings {
-  margin-top: 6px;
-  font-size: 14px;
-  color: #ccc;
- }
-
-.team-standings strong {
-  color: #BD3039; /* Red Sox red */
-}
-
-/* Patriots-specific */
-.team-card.patriots {
-  border-left: 6px solid #002244; /* Patriots Nautical Blue */
-}
-
-.team-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.team-logo {
-  width: 36px;
-  height: 36px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-.team-name {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.team-status {
-  font-size: 16px;
-}
-
-.team-standings {
-  margin-top: 6px;
-  font-size: 14px;
-  color: #ccc;
-}
-
-/* Revolution-specific */
-.team-card.revolution {
-  border-left: 6px solid #BD3039; /* Revolution Red */
-}
-
-.team-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.team-logo {
- width: 36px;
-  height: 36px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-.team-name {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.team-status {
-  font-size: 16px;
-}
-
-.team-standings {
-  margin-top: 6px;
-  font-size: 14px;
-  color: #ccc;
-}
-
-.team-standings strong {
-  color: #002244; /* Patriots Nautical Blue */
-}
-
-/* Celtics-specific */
-.team-card.celtics {
-  border-left: 6px solid #007A33; /* PCeltics Green */
-}
-
-.team-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.team-logo {
-  width: 36px;
-  height: 36px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-.team-name {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.team-status {
-  font-size: 16px;
-}
-
-.team-standings {
-  margin-top: 6px;
-  font-size: 14px;
-  color: #ccc;
-}
-
-
-
-.team-standings strong {
-  color: #007A33; /* PCeltics Green */
-}
-
-/* Standings tiers */
-.rank-playoff {
-  color: #4cff4c;   /* green */
-  font-weight: bold;
-}
-
-.rank-playin {
-  color: #ffcc00;   /* yellow */
-  font-weight: bold;
-}
-
-.rank-out {
-  color: #ff4c4c;   /* red */
+/* scrolling animation */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
