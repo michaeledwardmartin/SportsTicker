@@ -755,3 +755,143 @@ RESPONSIVE DESIGN
 .team-standings strong {
   white-space: nowrap;
 }
+
+/*
+=========================================================
+COMPACT LANDSCAPE TABLETS
+Kindle Fire / Amazon Silk
+=========================================================
+*/
+
+@media
+  (orientation: landscape)
+  and (min-width: 681px)
+  and (max-width: 1280px)
+  and (max-height: 850px) {
+
+  body {
+    padding-bottom: 48px;
+  }
+
+  #controls {
+    position: static;
+    gap: 4px;
+    padding: 5px 7px;
+  }
+
+  #controls label {
+    min-height: 25px;
+    padding: 3px 6px;
+
+    font-size: 0.62rem;
+  }
+
+  #controls input[type="checkbox"] {
+    width: 13px;
+    height: 13px;
+  }
+
+  .dashboard {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    width: calc(100% - 12px);
+    gap: 7px;
+    margin: 7px auto 10px;
+  }
+
+  .team-card {
+    min-width: 0;
+    min-height: 145px;
+    padding: 8px;
+
+    border-radius: 11px;
+  }
+
+  .team-card::before {
+    width: 4px;
+  }
+
+  .team-card::after {
+    width: 120px;
+    height: 120px;
+    right: -40px;
+    bottom: -50px;
+  }
+
+  .team-header {
+    gap: 7px;
+
+    padding-bottom: 6px;
+    margin-bottom: 6px;
+  }
+
+  .team-logo {
+    width: 35px;
+    height: 35px;
+    padding: 4px;
+
+    border-radius: 8px;
+  }
+
+  .team-name {
+    font-size: 0.78rem;
+    line-height: 1.05;
+  }
+
+  .team-status {
+    min-height: 34px;
+    padding: 6px 7px;
+    margin-bottom: 6px;
+
+    font-size: 0.68rem;
+    line-height: 1.2;
+
+    border-radius: 8px;
+  }
+
+  .team-status::before {
+    width: 6px;
+    height: 6px;
+    margin-right: 6px;
+  }
+
+  .team-standings {
+    min-height: 35px;
+    padding: 6px 7px;
+
+    font-size: 0.64rem;
+    line-height: 1.25;
+
+    border-radius: 8px;
+  }
+
+  .standings-badge {
+    margin-left: 3px;
+    padding: 1px 4px;
+
+    font-size: 0.48rem;
+    letter-spacing: 0.02em;
+  }
+
+  .ticker {
+    height: 42px;
+  }
+
+  .ticker::before {
+    padding: 0 8px;
+
+    font-size: 0.55rem;
+  }
+
+  #ticker-content {
+    padding-left: 12px;
+
+    font-size: 0.65rem;
+    animation-duration: 34s;
+  }
+
+  .ticker-team-logo {
+    width: 15px !important;
+    height: 15px !important;
+  }
+}
