@@ -515,7 +515,7 @@ async function loadTeamGame(team) {
 
         if (!event) {
             statusEl.classList.add("status-offseason");
-			statusEl.textContent = "No game scheduled today";
+			statusEl.textContent = "No Game Scheduled Today";
             return;
         }
 
