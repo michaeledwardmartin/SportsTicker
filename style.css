@@ -1,93 +1,700 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #111;
-  color: white;
-}
+/*
+=========================================================
+BOSTON SPORTS DASHBOARD
+=========================================================
+*/
 
-/* Controls bar */
-#controls {
-  padding: 10px;
-  background: #000;
-  font-size: 14px;
-}
-
-/* DASHBOARD GRID */
-.dashboard {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 wide */
-  grid-template-rows: repeat(3, 1fr);    /* 3 high */
-  gap: 12px;
-  padding: 12px;
-  height: calc(100vh - 120px); /* leaves room for controls + ticker */
+* {
   box-sizing: border-box;
 }
 
-/* TEAM CARDS */
-.team-card {
-  background-color: #222;
-  border-radius: 10px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow: hidden;
+:root {
+  --page-background: #08111f;
+  --panel-background: rgba(18, 30, 48, 0.96);
+  --panel-border: rgba(255, 255, 255, 0.1);
+  --primary-text: #f5f7fa;
+  --secondary-text: #aeb9c8;
+  --muted-text: #7f8b9b;
+
+  --live-color: #ff4d4d;
+  --final-color: #9ba7b7;
+  --upcoming-color: #63b3ff;
+
+  --card-radius: 18px;
+  --shadow: 0 15px 35px rgba(0, 0, 0, 0.28);
 }
 
-/* Header (logo + name) */
-.team-header {
+html {
+  min-height: 100%;
+  background: var(--page-background);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding-bottom: 78px;
+
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color: var(--primary-text);
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(45, 92, 155, 0.22),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at top right,
+      rgba(0, 122, 51, 0.15),
+      transparent 28%
+    ),
+    linear-gradient(
+      145deg,
+      #07101d 0%,
+      #0b1728 48%,
+      #07101d 100%
+    );
+}
+
+/*
+=========================================================
+CONTROLS
+=========================================================
+*/
+
+#controls {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 10px;
+
+  padding: 14px 22px;
+
+  background: rgba(5, 13, 25, 0.92);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+#controls label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  min-height: 36px;
+  padding: 7px 12px;
+
+  font-size: 0.84rem;
+  font-weight: 700;
+
+  color: #d9e2ec;
+
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+
+  cursor: pointer;
+  user-select: none;
+
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+#controls label:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+#controls input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+
+  accent-color: #4ca4ff;
+  cursor: pointer;
+}
+
+.control-spacer {
+  margin-left: auto;
+}
+
+/*
+=========================================================
+DASHBOARD GRID
+=========================================================
+*/
+
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(250px, 1fr));
+  gap: 20px;
+
+  width: min(1500px, calc(100% - 40px));
+  margin: 28px auto;
+}
+
+/*
+The final two cards center naturally on larger screens.
+*/
+
+.team-card:nth-child(4) {
+  grid-column: 1 / 2;
+}
+
+.team-card:nth-child(5) {
+  grid-column: 2 / 3;
+}
+
+/*
+=========================================================
+TEAM CARDS
+=========================================================
+*/
+
+.team-card {
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  min-height: 245px;
+  padding: 20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(23, 38, 59, 0.98),
+      rgba(11, 22, 38, 0.98)
+    );
+
+  border: 1px solid var(--panel-border);
+  border-radius: var(--card-radius);
+
+  box-shadow: var(--shadow);
+
+  isolation: isolate;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-4px);
+
+  border-color: rgba(255, 255, 255, 0.18);
+
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.38);
+}
+
+/*
+Team color stripe
+*/
+
+.team-card::before {
+  content: "";
+
+  position: absolute;
+  inset: 0 auto 0 0;
+
+  width: 6px;
+
+  background: var(--team-primary);
+
+  z-index: 3;
+}
+
+/*
+Large faded logo-style decoration
+*/
+
+.team-card::after {
+  content: "";
+
+  position: absolute;
+  right: -55px;
+  bottom: -75px;
+
+  width: 210px;
+  height: 210px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      var(--team-glow) 0%,
+      transparent 68%
+    );
+
+  opacity: 0.58;
+  pointer-events: none;
+
+  z-index: -1;
+}
+
+/*
+=========================================================
+TEAM COLORS
+=========================================================
+*/
+
+.team-card.bruins {
+  --team-primary: #fcb514;
+  --team-secondary: #000000;
+  --team-glow: rgba(252, 181, 20, 0.45);
+}
+
+.team-card.redsox {
+  --team-primary: #bd3039;
+  --team-secondary: #0c2340;
+  --team-glow: rgba(189, 48, 57, 0.45);
+}
+
+.team-card.patriots {
+  --team-primary: #c60c30;
+  --team-secondary: #002244;
+  --team-glow: rgba(198, 12, 48, 0.42);
+}
+
+.team-card.celtics {
+  --team-primary: #007a33;
+  --team-secondary: #ba9653;
+  --team-glow: rgba(0, 122, 51, 0.44);
+}
+
+.team-card.revolution {
+  --team-primary: #e51937;
+  --team-secondary: #0a2240;
+  --team-glow: rgba(229, 25, 55, 0.42);
+}
+
+/*
+=========================================================
+TEAM HEADER
+=========================================================
+*/
+
+.team-header {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding-bottom: 16px;
+  margin-bottom: 18px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .team-logo {
-  width: 40px;
-  height: 40px;
+  width: 58px;
+  height: 58px;
+
+  padding: 6px;
+
+  object-fit: contain;
+
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 14px;
+
+  filter: drop-shadow(0 6px 9px rgba(0, 0, 0, 0.34));
 }
 
 .team-name {
-  font-size: 1.1rem;
-  font-weight: bold;
+  font-size: clamp(1.05rem, 1.5vw, 1.32rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+
+  color: #ffffff;
 }
 
-/* Status + standings */
+/*
+=========================================================
+GAME STATUS
+=========================================================
+*/
+
 .team-status {
-  font-size: 1rem;
-  text-align: center;
-}
+  position: relative;
+  z-index: 2;
 
-.team-standings {
-  font-size: 0.9rem;
-  text-align: center;
-  opacity: 0.8;
-}
+  min-height: 56px;
+  padding: 13px 14px;
+  margin-bottom: 13px;
 
-/* TICKER */
-.ticker {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: #000;
-  overflow: hidden;
-  white-space: nowrap;
-  height: 40px;
   display: flex;
   align-items: center;
+
+  font-size: 1rem;
+  font-weight: 750;
+  line-height: 1.45;
+
+  color: #f8fafc;
+
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+}
+
+.team-status::before {
+  content: "";
+
+  flex: 0 0 auto;
+
+  width: 9px;
+  height: 9px;
+  margin-right: 10px;
+
+  background: var(--upcoming-color);
+  border-radius: 50%;
+
+  box-shadow: 0 0 12px rgba(99, 179, 255, 0.85);
+}
+
+.team-status.status-live::before {
+  background: var(--live-color);
+
+  box-shadow: 0 0 14px rgba(255, 77, 77, 0.95);
+
+  animation: livePulse 1.35s infinite;
+}
+
+.team-status.status-final::before {
+  background: var(--final-color);
+  box-shadow: none;
+}
+
+.team-status.status-error::before {
+  background: #ff9c4a;
+  box-shadow: none;
+}
+
+.team-status.status-offseason::before {
+  background: #7d8998;
+  box-shadow: none;
+}
+
+@keyframes livePulse {
+  0% {
+    transform: scale(0.88);
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: scale(1.22);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.88);
+    opacity: 0.7;
+  }
+}
+
+/*
+=========================================================
+STANDINGS
+=========================================================
+*/
+
+.team-standings {
+  position: relative;
+  z-index: 2;
+
+  min-height: 58px;
+  padding: 13px 14px;
+  margin-top: auto;
+
+  font-size: 0.92rem;
+  line-height: 1.55;
+
+  color: var(--secondary-text);
+
+  background: rgba(4, 11, 21, 0.36);
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 12px;
+}
+
+.team-standings strong {
+  color: #ffffff;
+  font-weight: 800;
+}
+
+
+/*
+=========================================================
+TICKER
+=========================================================
+*/
+
+.ticker {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  z-index: 200;
+
+  height: 58px;
+
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+
+  background:
+    linear-gradient(
+      90deg,
+      #040a13 0%,
+      #0d1d31 48%,
+      #040a13 100%
+    );
+
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+
+  box-shadow:
+    0 -9px 26px rgba(0, 0, 0, 0.38);
+}
+
+.ticker::before {
+  content: "BOSTON SPORTS";
+
+  position: relative;
+  z-index: 5;
+
+  flex: 0 0 auto;
+
+  height: 100%;
+  padding: 0 18px;
+
+  display: flex;
+  align-items: center;
+
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  white-space: nowrap;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #155a91,
+      #092e52
+    );
+
+  border-right: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 #ticker-content {
-  display: inline-block;
-  padding-left: 100%;
-  animation: scroll-left 90s linear infinite;
+  display: inline-flex;
+  align-items: center;
+
+  min-width: max-content;
+  padding-left: 28px;
+
+  font-size: 0.9rem;
+  font-weight: 700;
+  white-space: nowrap;
+
+  color: #eaf0f6;
+
+  animation: tickerScroll 42s linear infinite;
 }
 
-/* scrolling animation */
-@keyframes scroll-left {
-  0% {
-    transform: translateX(0%);
+.ticker:hover #ticker-content {
+  animation-play-state: paused;
+}
+
+#ticker-content .live {
+  color: #ff8585;
+}
+
+#ticker-content .final {
+  color: #c4ccd6;
+}
+
+#ticker-content .upcoming {
+  color: #dcecff;
+}
+
+.ticker-team-logo {
+  flex: 0 0 auto;
+}
+
+@keyframes tickerScroll {
+  from {
+    transform: translateX(100vw);
   }
-  100% {
+
+  to {
     transform: translateX(-100%);
   }
+}
+
+/*
+=========================================================
+RESPONSIVE DESIGN
+=========================================================
+*/
+
+@media (max-width: 1050px) {
+  .dashboard {
+    grid-template-columns: repeat(2, minmax(250px, 1fr));
+  }
+
+  .team-card:nth-child(4),
+  .team-card:nth-child(5) {
+    grid-column: auto;
+  }
+
+  .control-spacer {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 680px) {
+  body {
+    padding-bottom: 70px;
+  }
+
+  #controls {
+    padding: 11px 12px;
+    gap: 7px;
+  }
+
+  #controls label {
+    min-height: 33px;
+    padding: 6px 10px;
+    font-size: 0.76rem;
+  }
+
+  .dashboard {
+    grid-template-columns: 1fr;
+
+    width: calc(100% - 24px);
+    gap: 14px;
+    margin: 16px auto;
+  }
+
+  .team-card {
+    min-height: 220px;
+    padding: 17px;
+  }
+
+  .team-logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .ticker {
+    height: 54px;
+  }
+
+  .ticker::before {
+    content: "BOSTON";
+    padding: 0 11px;
+    font-size: 0.66rem;
+  }
+
+  #ticker-content {
+    font-size: 0.8rem;
+  }
+}
+
+.standings-badge {
+  display: inline-flex;
+  align-items: center;
+
+  margin-left: 7px;
+  padding: 2px 7px;
+
+  font-size: 0.67rem;
+  font-weight: 900;
+  line-height: 1.4;
+  letter-spacing: 0.05em;
+
+  border: 1px solid;
+  border-radius: 999px;
+}
+
+.badge-playoff {
+  color: #64dc91;
+  background: rgba(100, 220, 145, 0.12);
+  border-color: rgba(100, 220, 145, 0.45);
+}
+
+.badge-playin {
+  color: #ffd166;
+  background: rgba(255, 209, 102, 0.12);
+  border-color: rgba(255, 209, 102, 0.45);
+}
+
+.badge-out {
+  color: #ff8383;
+  background: rgba(255, 131, 131, 0.12);
+  border-color: rgba(255, 131, 131, 0.45);
+}
+
+@media (max-width: 680px) {
+  #controls {
+    position: static;
+  }
+
+  .team-card {
+    min-height: 190px;
+  }
+
+  .team-header {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+  }
+
+  .team-status,
+  .team-standings {
+    min-height: auto;
+    padding: 10px 12px;
+  }
+
+  .team-name {
+    font-size: 1rem;
+  }
+
+  .ticker::before {
+    display: none;
+  }
+
+  #ticker-content {
+    padding-left: 16px;
+    animation-duration: 32s;
+  }
+}
+
+.team-standings strong {
+  white-space: nowrap;
 }
