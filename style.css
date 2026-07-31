@@ -143,24 +143,16 @@ DASHBOARD GRID
 
 .dashboard {
   display: grid;
-  grid-template-columns: repeat(3, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, 260px), 1fr)
+  );
+  gap: clamp(12px, 2vw, 20px);
 
-  width: min(1500px, calc(100% - 40px));
-  margin: 28px auto;
+  width: min(1500px, calc(100% - 32px));
+  margin: clamp(16px, 3vw, 28px) auto;
 }
 
-/*
-The final two cards center naturally on larger screens.
-*/
-
-.team-card:nth-child(4) {
-  grid-column: 1 / 2;
-}
-
-.team-card:nth-child(5) {
-  grid-column: 2 / 3;
-}
 
 /*
 =========================================================
@@ -565,12 +557,32 @@ RESPONSIVE DESIGN
 
 @media (max-width: 1050px) {
   .dashboard {
-    grid-template-columns: repeat(2, minmax(250px, 1fr));
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(min(100%, 230px), 1fr)
+    );
   }
 
-  .team-card:nth-child(4),
-  .team-card:nth-child(5) {
-    grid-column: auto;
+  .team-card {
+    min-height: 215px;
+    padding: clamp(14px, 2vw, 18px);
+  }
+
+  .team-logo {
+    width: clamp(46px, 6vw, 56px);
+    height: clamp(46px, 6vw, 56px);
+  }
+
+  .team-name {
+    font-size: clamp(0.95rem, 2vw, 1.18rem);
+  }
+
+  .team-status {
+    font-size: clamp(0.86rem, 1.7vw, 1rem);
+  }
+
+  .team-standings {
+    font-size: clamp(0.8rem, 1.5vw, 0.92rem);
   }
 
   .control-spacer {
@@ -579,51 +591,33 @@ RESPONSIVE DESIGN
 }
 
 @media (max-width: 680px) {
-  body {
-    padding-bottom: 70px;
-  }
-
-  #controls {
-    padding: 11px 12px;
-    gap: 7px;
-  }
-
-  #controls label {
-    min-height: 33px;
-    padding: 6px 10px;
-    font-size: 0.76rem;
-  }
-
   .dashboard {
     grid-template-columns: 1fr;
-
-    width: calc(100% - 24px);
-    gap: 14px;
-    margin: 16px auto;
+    width: calc(100% - 20px);
+    gap: 12px;
+    margin: 14px auto;
   }
 
   .team-card {
-    min-height: 220px;
-    padding: 17px;
+    min-height: 185px;
+    padding: 14px;
+  }
+
+  .team-header {
+    gap: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
   }
 
   .team-logo {
-    width: 50px;
-    height: 50px;
+    width: 44px;
+    height: 44px;
   }
 
-  .ticker {
-    height: 54px;
-  }
-
-  .ticker::before {
-    content: "BOSTON";
-    padding: 0 11px;
-    font-size: 0.66rem;
-  }
-
-  #ticker-content {
-    font-size: 0.8rem;
+  .team-status,
+  .team-standings {
+    min-height: auto;
+    padding: 9px 10px;
   }
 }
 
